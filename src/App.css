@@ -1,48 +1,51 @@
-#root {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100wh;
-  height: 100vh;
-}
-
 .game {
-  width: max-content;
+  height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
+.game h1 {margin-bottom: 0px;}
 
-.status {
-  margin-bottom: 20px;
-  font-size: 40px;
-  font-weight: 700;
-  text-align: center;
-}
-
-.board-row {
+.board {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+.board h2 {margin: 0 0 20px 0; font-weight: 300;}
+
+.board_squares {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  width: 230px;
+  height: 230px;
 }
 
-.square {
-  font-size: 60px;
+.sqaure {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  font-size: 30px;
   font-weight: 300;
-  height: 100px;
-  width: 100px;
-  padding: 0;
-  margin: 5px;
-  border: 3px solid black;
-  background-color: white;
+  background-color: #fff;
+  border: 3px solid rgb(0, 0, 0);
 }
 
-.square:hover {
-  cursor: pointer;
-  background-color: chartreuse;
+.winner{
+  background-color: rgb(218, 255, 237);
+  border: 3px solid rgb(146, 192, 170);
 }
 
-.square:active {
+.sqaure:hover {
+  background-color:chartreuse;
   cursor: pointer;
-  background-color: rgb(101, 202, 0);
 }

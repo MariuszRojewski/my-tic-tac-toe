@@ -3,11 +3,7 @@ import "./App.css";
 import Game from "./components/Game.js";
 
 function App() {
-  return (
-    <div>
-      <Game />
-    </div>
-  );
+  return <Game />;
 }
 
 export default App;

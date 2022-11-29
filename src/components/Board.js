@@ -1,5 +1,5 @@
 import React from "react";
-import Square from "./Square.js";
+import Square from "./Square";
 
 function calculateWinner(squares) {
   const lines = [
@@ -17,7 +17,7 @@ function calculateWinner(squares) {
     const [a, b, c] = lines[i];
 
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return [squares[a], lines[i]];
     }
   }
 
@@ -29,62 +29,56 @@ class Board extends React.Component {
     super(props);
     this.state = {
       squares: Array(9).fill(null),
-      xIsNext: true,
+      boolenXO: true,
+      winner: null,
     };
   }
 
-  handleClick(i) {
-    // dzieki użyciu .slice() otworzyliśmy kopię
-    const squares = this.state.squares.slice();
-    // JEśli jest winner to przedwczesnie kończę grę
-    if (calculateWinner(squares) || squares[i]) {
-      return;
-    }
+  handleClick(squareID) {
+    const squares = [...this.state.squares];
+    if (calculateWinner(squares) || squares[squareID]) return;
+    squares[squareID] = this.state.boolenXO ? "X" : "O";
 
-    squares[i] = this.state.xIsNext ? "X" : "O";
     this.setState({
       squares: squares,
-      xIsNext: !this.state.xIsNext,
+      boolenXO: !this.state.boolenXO,
     });
   }
 
-  renderSquare(i) {
-    return (
-      <Square
-        value={this.state.squares[i]}
-        onClick={() => this.handleClick(i)}
-      />
-    );
-  }
-
   render() {
-    const winner = calculateWinner(this.state.squares);
-    let status;
-
-    if (winner) {
-      status = "Wygrywa: " + winner;
-    } else {
-      status = `Obecnie gra: ${this.state.xIsNext ? "X" : "O"}`;
+    let isWinner = calculateWinner(this.state.squares);
+    let winner = "";
+    let winnerSquares = null;
+    const gameBoard = [...this.state.squares];
+    if (isWinner) {
+      winner = isWinner[0];
+      winnerSquares = isWinner[1];
     }
 
+    if (winnerSquares) {
+      winnerSquares.forEach((element) => {
+        const abc = document.querySelectorAll(".sqaure");
+        abc[element].classList.add("winner");
+        // console.log(gameBoard[element]);
+      });
+    }
     return (
-      <div>
-        <div className="status">{status}</div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
+      <div className="board">
+        <h2>Board</h2>
+        <div className="board_squares">
+          {gameBoard.map((name, index) => (
+            <Square
+              key={"square_" + index}
+              index={index}
+              onClick={() => this.handleClick(index)}
+              value={this.state.squares[index]}
+            />
+          ))}
         </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        <h3>
+          {/* COS TU NIE DO KONCA DZIAŁA POKAZANIE WYGRANEGO! */}
+          {winner ? `The winner is "${winner}"` : ""}
+        </h3>
       </div>
     );
   }
